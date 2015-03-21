@@ -34,6 +34,8 @@ class PinaxBlogAppConf(AppConf):
     SLUG_UNIQUE = False
 
     def configure_markup_choices(self, value):
+        if isinstance(value, list):
+            return value
         return [
             (key, value[key]["label"])
             for key in value.keys()

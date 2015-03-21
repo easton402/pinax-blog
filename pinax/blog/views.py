@@ -55,17 +55,29 @@ def blog_post_detail(request, **kwargs):
         post = get_object_or_404(Post, secret_key=kwargs["post_secret_key"])
     else:
         queryset = Post.objects.current()
+        #easton modified
         if "post_slug" in kwargs:
             if not settings.PINAX_BLOG_SLUG_UNIQUE:
                 raise Http404()
             post = get_object_or_404(queryset, slug=kwargs["post_slug"])
         else:
-            queryset = queryset.filter(
-                published__year=int(kwargs["year"]),
-                published__month=int(kwargs["month"]),
-                published__day=int(kwargs["day"]),
-            )
-            post = get_object_or_404(queryset, slug=kwargs["slug"])
+            '''easton: i don't know why, the statement seems right, but the
+            result is wrong, very strange
+            '''
+            #queryset = queryset.filter(
+            #    published__year=int(kwargs["year"]),
+            #    published__month=int(kwargs["month"]),
+            #    published__day=int(kwargs["day"]),
+            #)
+            filterd_posts = [i for i in queryset if
+                        i.published.year == int(kwargs['year']) and
+                        i.published.month == int(kwargs['month']) and
+                        i.published.day == int(kwargs['day'])]
+            #post = get_object_or_404(queryset, slug=kwargs["slug"])
+            try:
+                post = [i for i in filterd_posts if i.slug == kwargs["slug"]][0]
+            except:
+                raise Exception('found 0 article')
             if settings.PINAX_BLOG_SLUG_UNIQUE:
                 post_redirected.send(sender=post, post=post, request=request)
                 return redirect(post.get_absolute_url(), permanent=True)
