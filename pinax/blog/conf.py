@@ -29,9 +29,12 @@ class PinaxBlogAppConf(AppConf):
     UNPUBLISHED_STATES = [
         "Draft"
     ]
+    FEED_TITLE = "Blog"
+    SECTION_FEED_TITLE = "Blog (%s)"
     MARKUP_CHOICE_MAP = DEFAULT_MARKUP_CHOICE_MAP
     MARKUP_CHOICES = DEFAULT_MARKUP_CHOICE_MAP
     SLUG_UNIQUE = False
+    PAGINATE_BY = 10
 
     def configure_markup_choices(self, value):
         if isinstance(value, list):

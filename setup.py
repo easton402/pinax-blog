@@ -19,7 +19,7 @@ URL = "https://github.com/pinax/pinax-blog"
 
 setup(
     name=NAME,
-    version="4.0.1",
+    version="4.3.0",
     description=DESCRIPTION,
     long_description=read("README.rst"),
     url=URL,
@@ -30,10 +30,18 @@ setup(
             "templates/pinax/blog/*.xml",
         ]
     },
+    tests_require=[
+        "django-appconf>=1.0.1",
+        "pytz==2015.7",
+        "Pillow>=3.0.0",
+        "Markdown>=2.6.5",
+        "Pygments>=2.0.2"
+    ],
     install_requires=[
         "django-appconf>=1.0.1",
-        "Pillow>=2.0",
-        "Markdown>=2.6",
+        "pytz==2015.7",
+        "Pillow>=3.0.0",
+        "Markdown>=2.6.5",
         "Pygments>=2.0.2"
     ],
     test_suite="runtests.runtests",
